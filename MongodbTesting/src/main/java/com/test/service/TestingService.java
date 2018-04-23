@@ -39,9 +39,9 @@ public class TestingService {
 	public String getUser(){
 		List<MainEntity> entities = mainRepo.findAll();
 		if(!entities.isEmpty()){
-			InnerEntity inner = entities.get(0).getInnerEntity(); //It returns inner object with populated 'id' fields
+			InnerEntity inner = entities.get(0).getInnerEntity(); //It returns inner object with populated 'id' fields only if MainEntity class contains InnerEntity as @DBRef(db = "innerEntity", lazy = false). If I set InnerEntity as @DBRef(db = "innerEntity", lazy = true), given line will return 'inner = null';
 			String innerId = inner.getId();	// 'id' is null here.
-			System.out.println(innerId);
+			System.out.println(innerId);	//will return null
 		}
 		return entities.stream().map(main -> main.getInnerEntity().getId()).collect(Collectors.joining(", "));
 	}
